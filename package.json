@@ -1,0 +1,58 @@
+{
+  "name": "kidsvideos.www",
+  "version": "0.1.0",
+  "private": true,
+  "appConf" : {
+    "dev":{
+      "appUrl": "http://localhost:9000/apps",
+      "apiUrl": "http://localhost:3000"
+    },
+    "prod":{
+      "appUrl": "http://kidsvideos.io",
+      "apiUrl": "http://api.kidsvideos.io"
+    }
+  },
+  "scripts": {
+    "test": "grunt test",
+    "start": "grunt server"
+  },
+  "engines" : {
+    "node" : ">=1.0",
+    "npm" : "1.2.x"
+  },
+  "dependencies": {
+    "grunt": "*",
+    "grunt-replace": "*",
+    "grunt-google-cdn": "*",
+    "grunt-contrib-less": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-jscs-checker": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-htmlmin": "*",
+    "grunt-contrib-imagemin": "*",
+    "grunt-ngmin": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-autoprefixer": "*",
+    "grunt-usemin": "git+https://git@github.com/ivarprudnikov/grunt-usemin.git",
+    "grunt-svgmin": "*",
+    "grunt-filerev": "*",
+    "grunt-open": "*",
+    "grunt-concurrent": "*",
+    "load-grunt-tasks": "*",
+    "connect-livereload": "*",
+    "time-grunt": "*",
+    "grunt-karma": "*",
+    "karma": "*",
+    "karma-script-launcher": "*",
+    "karma-chrome-launcher": "*",
+    "karma-html2js-preprocessor": "*",
+    "karma-jasmine": "*",
+    "karma-ng-html2js-preprocessor": "*",
+    "grunt-angular-templates": "~0.5.6"
+  }
+}

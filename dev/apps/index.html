@@ -1,0 +1,74 @@
+<!doctype html>
+<html ng-app="io.kidsvideos.www" class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>kidsvideos.io</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- build:css home/styles/core.css -->
+    <link rel="stylesheet" href="home/styles/core.css">
+    <!-- endbuild -->
+
+    <link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500" rel="stylesheet">
+</head>
+
+<body class="body">
+
+
+<aside sidebar position="'left'">
+    <div class="sidebar-brand">
+        <a tabindex="1">
+            <img src="_shared/images/kidsvideos.io_logo-white-beta.svg" />
+        </a>
+    </div>
+    <nav class="sidebar-links">
+        <ul>
+            <li><a tabindex="1">Search</a></li>
+            <li><a tabindex="1">Browse</a></li>
+            <li><a tabindex="1">Your videos</a></li>
+            <li><a tabindex="1">Account</a></li>
+        </ul>
+    </nav>
+    <span class="sidebar-separator"></span>
+    <nav class="sidebar-links">
+        <ul>
+            <li><a tabindex="1">About</a></li>
+            <li><a tabindex="1">Privacy</a></li>
+            <li><a tabindex="1">Terms</a></li>
+        </ul>
+    </nav>
+</aside>
+
+<div class="page" ui-view autoscroll="false"></div>
+
+</body>
+
+<!-- build:js home/scripts/vendor.js -->
+<script src="../vendor_components/easyXDM.debug.js"></script>
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/underscore/underscore.js"></script>
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-local-storage/angular-local-storage.js"></script>
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="../bower_components/angular-ui-utils/ui-utils.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<!-- endbuild -->
+
+<!-- build:js root/scripts/tpls.js -->
+<script src="_shared/scripts/generatedTemplates.js"></script>
+<!-- endbuild -->
+
+<!-- build:js home/scripts/app.js -->
+<script src="_shared/scripts/generatedConfiguration.js"></script>
+<script src="_shared/scripts/com.ivarprudnikov.ng.auth.js"></script>
+<script src="_shared/scripts/com.ivarprudnikov.ng.sidebar.js"></script>
+<script src="home/scripts/app.js"></script>
+<!-- endbuild -->
+
+
+</html>

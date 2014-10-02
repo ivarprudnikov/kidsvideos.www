@@ -1,2 +1,2 @@
-kidsvideos.www
+kidsvideos.io
 ==============

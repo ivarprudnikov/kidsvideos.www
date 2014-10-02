@@ -1,0 +1,12 @@
+dist
+.tmp
+.sass-cache
+.idea
+*.DS_Store
+dev/bower_components/
+dev/apps/*/styles/core.css
+dev/**/generated*.js
+prod/
+.elasticbeanstalk/
+node_modules/
+npm-debug.log

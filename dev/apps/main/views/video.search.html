@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Video search</h1>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+
+        <div class="" ng-class="videoId ? 'col-sm-6' : 'col-sm-12'">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="form-inline" ng-submit="search()">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="search_term" ng-model="params.search_term" value="{{params.search_term}}" placeholder="eg. dora explorer">
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" ng-model="params.type" ng-options="type as obj.name for (type,obj) in types"></select>
+                        </div>
+
+
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr>
+
+            <div ng-if="results != null && results.items && !results.items.length" class="alert alert-warning">Nothing found</div>
+            <div ng-if="loadingMessage" class="alert alert-warning">{{loadingMessage}}</div>
+
+            <div ng-if="results && results.items">
+
+                <div class="row" ng-repeat="(itemIdx,item) in results.items" ng-if="itemIdx % 4 == 0">
+
+                    <div ng-class="videoId ? 'col-sm-12' : 'col-sm-3'" ng-repeat="elIdx in [0,1,2,3]" ng-if="results.items[itemIdx+elIdx]">
+
+                        <result-small
+                                is-active="videoId === results.items[itemIdx+elIdx].id"
+                                is-grid-item="videoId == null"
+                                image-url="results.items[itemIdx+elIdx].image[ results.items[itemIdx+elIdx].image.length - 1 ].url"
+                                on-image-click="previewVideo(results.items[itemIdx+elIdx].id)"
+                                title="results.items[itemIdx+elIdx].displayName"
+                                on-title-click="previewVideo(results.items[itemIdx+elIdx].id)"
+                                status="results.items[itemIdx+elIdx].isApproved ? 'approved' : results.items[itemIdx+elIdx].isSkipped ? 'skipped' : results.items[itemIdx+elIdx].isPending ? 'pending' : '' "
+                                actions="{
+                                    'Set approved':'setApproved(itemIdx+elIdx)',
+                                    'Set skipped':'setSkipped(itemIdx+elIdx)',
+                                    'Set pending':'setPending(itemIdx+elIdx)',
+                                    'Add to ...' : 'addTo(itemIdx+elIdx)'
+                                }"
+                                ></result-small>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <hr>
+
+            <ul class="pager pager-branded" ng-if="results.links.prev || results.links.next">
+                <li ng-if="results.links.prev">
+                    <a class="btn btn-default" ng-click="prev()">
+                        <span class="sr-only">Previous page</span>
+                        <span class="icon-left-open"></span>
+                    </a>
+                </li>
+                <li ng-if="results.links.next">
+                    <a class="btn btn-default" ng-click="next()">
+                        <span class="icon-right-open"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="content-sidebar content-sidebar-right" ng-class="{active:videoId}">
+    <div class="content">
+        <div class="video-container">
+            <youtube-player
+                ng-if="videoId"
+                videoid="videoId"
+                on-next-load-video-id="loadNextId(currentId)"
+                on-previous-load-video-id="loadPreviousId(currentId)"
+                playerorigin="'http://localhost:9000'" />
+        </div>
+    </div>
+</div>
