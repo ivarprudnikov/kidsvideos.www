@@ -176,23 +176,15 @@
 
       function loadVideo() {
         var deferred = $q.defer();
-        if (videoActivity._id) {
-          $timeout(
-          function () {
-            deferred.resolve(videoActivity);
+
+        YoutubeVideoActivityFactory.checkVideo( videoActivity, function (err, existingOrNew) {
+          if (err) {
+            deferred.reject(err);
+          } else {
+            deferred.resolve(existingOrNew);
           }
-          );
-        } else {
-          YoutubeVideoActivityFactory.setActivityPending(
-          videoActivity, function (err, savedVideoActivity) {
-            if (err) {
-              deferred.reject(err);
-            } else {
-              deferred.resolve(savedVideoActivity);
-            }
-          }
-          );
-        }
+        });
+
         return deferred.promise;
       }
 

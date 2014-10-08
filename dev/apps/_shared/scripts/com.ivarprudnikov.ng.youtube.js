@@ -148,7 +148,8 @@
           controller : ['$scope', '$element', function ($scope, $element) {
 
             var resizeListenerEl,
-              volumeKnobEl, timeKnobEl
+              volumeKnobEl, timeKnobEl, timerIsDragged, volumeDragger, timerDragger,
+              timeContainer
               ;
 
             // DEFAULTS
@@ -238,11 +239,13 @@
             }
 
             function secondsToReadableFormat(seconds) {
-              var t = Math.round(seconds);
+              var input = angular.isNumber(seconds) ? seconds : 0;
+              var t = Math.round(input);
               var sec = t % 60;
               var min = ((t - sec) / 60) % 60;
               var h = ((t - sec) - (min * 60)) / 3600;
-              return (h > 0 ? h + ':' : '') + (min < 10 && h > 0 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+              var time = (h > 0 ? h + ':' : '') + (min < 10 && h > 0 ? '0' + min : min) + ':' + (sec < 10 ? '0' + sec : sec);
+              return time;
             }
 
             function onPlayerStateChanged(evt) {
@@ -269,7 +272,9 @@
                   elapsed = $scope.player.getCurrentTime();
                   $scope.timeElapsed = secondsToReadableFormat(elapsed);
                   $scope.timeRemaining = secondsToReadableFormat(total - elapsed);
-                  $scope.progressPercent = elapsed / total * 100;
+                  if(!timerIsDragged){
+                    $scope.progressPercent = elapsed / total * 100;
+                  }
                 }, 200);
               }
 
@@ -297,15 +302,14 @@
 
             // VOLUME LISTENER/HANDLER
 
-            volumeKnobEl = $element[0].getElementsByClassName('video-audio-volume-knob')[0];
-
             /* jshint camelcase:false */
 
             function dragVolume(event) {
+
               // TODO cache element properties
               var rect = $element[0].getElementsByClassName('video-audio-container')[0].getBoundingClientRect();
               var width = rect.right - rect.left;
-              var value = event.gesture.center.pageX - rect.left;
+              var value = event.center.x - rect.left;
               var percentOutOfBounds = (value / width * 100).toFixed();
               var percent;
 
@@ -319,7 +323,7 @@
 
               // if it is a dragend then store
               // value in localstorage
-              if (event.type === 'dragend') {
+              if (event.type === 'panend') {
                 $scope.volumePercent = PlayerDataFactory.setVolume.call(PlayerDataFactory, percent);
               } else {
                 $scope.volumePercent = percent;
@@ -334,23 +338,18 @@
 
             }
 
-            Hammer(volumeKnobEl, {
-              drag_block_vertical : true,
-              dragMinDistance     : 2
-            }).on('drag dragend', dragVolume);
+            volumeKnobEl = $element[0].getElementsByClassName('video-audio-volume-knob')[0];
+            volumeDragger = new Hammer(volumeKnobEl);
+            volumeDragger.on('pan', dragVolume);
 
             // VIDEO TIME LISTENER/HANDLER
 
-            function dragTime(event) {
-              // TODO cache element properties
+            function getTimePercentFromEvent(event){
               var rect = $element[0].getElementsByClassName('video-time-container')[0].getBoundingClientRect();
               var width = rect.right - rect.left;
-              var value = event.gesture.center.pageX - rect.left;
+              var value = event.center.x - rect.left;
               var percentOutOfBounds = (value / width * 100).toFixed();
-              var totalVideoTimeInSeconds;
-              var seekToSeconds;
               var percent;
-
               if (percentOutOfBounds > 100) {
                 percent = 100;
               } else if (percentOutOfBounds < 0) {
@@ -358,20 +357,46 @@
               } else {
                 percent = percentOutOfBounds;
               }
+              return percent;
+            }
 
-              $scope.progressPercent = percent;
-              $scope.$apply();
-
-              // if it is a dragend then seek video
-              if (event.type === 'dragend' && $scope.player) {
-                totalVideoTimeInSeconds = $scope.player.getDuration();
-                seekToSeconds = totalVideoTimeInSeconds * percent / 100;
-                $scope.player.seekTo(seekToSeconds, true);
+            function getVideoSecondsFromPercent(percent){
+              if ($scope.player) {
+                var totalVideoTimeInSeconds = $scope.player.getDuration();
+                return totalVideoTimeInSeconds * percent / 100;
+              } else {
+                return 0;
               }
             }
 
+            function dragTime(event) {
+
+              timerIsDragged = true;
+
+              var percent = getTimePercentFromEvent(event);
+              $scope.progressPercent = percent;
+              $scope.$apply();
+
+              if (event.type === 'panend' && $scope.player) {
+                $scope.player.seekTo(getVideoSecondsFromPercent(percent), true);
+              }
+
+              if (event.type === 'panend' || event.type === 'pancancel')
+                timerIsDragged = false;
+            }
+
             timeKnobEl = $element[0].getElementsByClassName('video-time-knob')[0];
-            Hammer(timeKnobEl, {drag_block_vertical : true}).on('drag dragend', dragTime);
+            timerDragger = new Hammer(timeKnobEl);
+            timerDragger.on('pan panend pancancel', dragTime);
+
+
+            timeContainer = $element[0].getElementsByClassName('video-time-container-touch-area')[0];
+            new Hammer(timeContainer).on('tap', function(event){
+              var percent = getTimePercentFromEvent(event);
+              $scope.progressPercent = percent;
+              $scope.$apply();
+              $scope.player.seekTo(getVideoSecondsFromPercent(percent), true);
+            });
 
             // WATCHERS
             ////////////////////////////
@@ -552,6 +577,7 @@
             '<div class="video-view-controls-time">' +
             '<div class="video-time-current">{{timeElapsed}}</div>' +
             '<div class="video-time-container">' +
+            '<div class="video-time-container-touch-area"></div>' +
             '<div class="video-buffer-line" style="width: {{bufferPercent}}%;"></div>' +
             '<div class="video-time-line" style="width: {{progressPercent}}%;">' +
             '<div class="video-time-knob" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: none;">' +

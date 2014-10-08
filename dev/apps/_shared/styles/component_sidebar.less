@@ -19,6 +19,7 @@
 
 .sidebar {
   position: absolute;
+  position: fixed;
   width: 200px;
   height: 100%;
   background: rgb(65, 65, 65);
@@ -109,6 +110,14 @@ nav {
           border-bottom-color: rgb(75, 75, 75);
         }
       }
+
+      &.active a {
+        background-color: rgb(56, 56, 56);
+        border-top-color: rgb(49, 49, 49);
+        border-bottom-color: rgb(75, 75, 75);
+      }
+
+
     }
   }
 }

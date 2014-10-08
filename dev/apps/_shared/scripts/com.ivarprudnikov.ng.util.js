@@ -96,5 +96,30 @@
   ]
   );
 
+  mod.directive('loader', [ function () {
+
+      return {
+
+        restrict   : 'EA',
+        replace    : true,
+        transclude : false,
+        scope      : {
+          message   : '=?'
+        },
+        controller : [
+          '$scope', '$element', '$attrs', function ($scope, $element, $attrs) {}
+        ],
+        template : '' +
+        '<div class="loader" ng-class="{txt:message}">' +
+        '  <div class="rect rect1"></div>' +
+        '  <div class="rect rect2"></div>' +
+        '  <div class="rect rect3"></div>' +
+        '  <div class="rect rect4"></div>' +
+        '  <div class="rect rect5"></div>' +
+        '  <div class="msg" ng-if="message">{{message}}</div>' +
+        '</div>'
+      }
+  }]);
+
 }(angular));
 

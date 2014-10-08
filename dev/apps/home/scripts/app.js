@@ -2,12 +2,16 @@
 
 var APP = angular.module(
 'io.kidsvideos.www', [
+  'io.kidsvideos.www.search',
   'com.ivarprudnikov.ng.config',
   'com.ivarprudnikov.ng.sidebar',
+  'com.ivarprudnikov.ng.youtube',
+  'com.ivarprudnikov.ng.validation',
+  'com.ivarprudnikov.ng.search',
   'com.ivarprudnikov.ng.auth',
-  'ui.router',
-  'ui.bootstrap',
-  'appTemplates'
+  'com.ivarprudnikov.ng.data',
+  'com.ivarprudnikov.ng.video.manage',
+  'ui.router', 'ui.bootstrap', 'ngResource', 'ngAnimate', 'ui.keypress', 'ui.event', 'appTemplates'
 ]
 );
 
@@ -36,7 +40,10 @@ function AppRunner($rootScope, $urlRouter, $window, authService, configuration) 
   });
 }
 
-function AppConfig($stateProvider, $urlRouterProvider) {
+function AppConfig($stateProvider, $urlRouterProvider, $locationProvider) {
+
+  //$locationProvider.html5Mode(true);
+  $locationProvider.hashPrefix('!');
 
   var VIEWS_PATH = 'apps/home/views/';
 
@@ -54,4 +61,4 @@ function AppConfig($stateProvider, $urlRouterProvider) {
 }
 
 APP.run(['$rootScope','$urlRouter','$window','authService','configuration',AppRunner]);
-APP.config(['$stateProvider', '$urlRouterProvider', AppConfig]);
+APP.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', AppConfig]);

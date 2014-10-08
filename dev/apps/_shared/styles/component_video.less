@@ -142,6 +142,23 @@
           top: -6px;
           border-radius: 8px;
           border: 1px solid #333;
+
+          .video-audio-volume-knob-area {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            margin-top: -20px;
+            margin-left: -20px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background-color: rgba(128, 128, 128, 0.14);
+            }
+          }
         }
       }
     }
@@ -182,6 +199,16 @@
       background-color: #666;
       border-radius: 3px;
 
+      .video-time-container-touch-area {
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        top: 50%;
+        margin-top: -10px;
+        cursor: pointer;
+        z-index: 1;
+      }
+
       .video-time-line,
       .video-buffer-line {
         position: absolute;
@@ -199,6 +226,7 @@
 
         .video-time-knob {
           position: absolute;
+          z-index: 2;
           cursor: ew-resize;
           left: 100%;
           width: 16px;
@@ -208,6 +236,23 @@
           top: -6px;
           border-radius: 8px;
           border: 1px solid #333;
+
+          .video-time-knob-area {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            margin-top: -20px;
+            margin-left: -20px;
+            transition: all 0.2s ease;
+
+            &:hover {
+              background-color: rgba(128, 128, 128, 0.14);
+            }
+          }
         }
 
       }

@@ -1,17 +1,16 @@
 @import "../../_shared/styles/base_styles";
 
-@bg-color: #555555;
-@dim-color: #ff7133;
-@fg-color: #fff;
+.search-form {
+  overflow: hidden;
+  padding: 20px;
+  -webkit-transition: 0.3s all ease;
+  -moz-transition: 0.3s all ease;
+  -ms-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
 
-
-
-body {
-  background-color: @bg-color;
-}
-
-a {
-  color: @dim-color;
-  text-decoration: underline;
+  &.not-used {
+    padding-top: 150px;
+  }
 }
 

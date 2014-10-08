@@ -197,9 +197,9 @@
         template : '' +
         '<div class="sr-item-sm" ng-class="{\'sr-item-grid\':isGridItem,\'sr-item-list\':!isGridItem,active:isActive}">' +
         '<div class="sr-item-sm-image-wrapper">' +
+        '<div class="sr-item-sm-image-loader" ng-if="imageIsLoading">Loading ...</div>' +
         '<img ng-src="{{imageUrl}}" ng-attr-alt="title" result-image-preloader ng-class="{clickable:onImageClick}" ng-click="clickImage()"/>' +
         '<div class="sr-item-sm-image" ng-class="{clickable:onImageClick}" ng-click="clickImage()" ng-style="{\'background-image\': \'url(\' + imageUrl + \')\'}"></div>' +
-        '<div class="sr-item-sm-image-loader" ng-if="imageIsLoading">Loading ...</div>' +
         '<div class="sr-item-sm-image-error icon-cancel" ng-if="imageError"></div>' +
         '<result-status status="status"></result-status>' +
         '</div>' +
