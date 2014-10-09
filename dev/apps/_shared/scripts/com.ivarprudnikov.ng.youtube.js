@@ -149,12 +149,14 @@
 
             var resizeListenerEl,
               volumeKnobEl, timeKnobEl, timerIsDragged, volumeDragger, timerDragger,
-              timeContainer
+              timeContainer, volumeContainer
               ;
 
             // DEFAULTS
             /////////////////////////////////
 
+            $scope.videoIsLoading = false;
+            $scope.videoError = false;
             $scope.bufferPercent = 0;
             $scope.progressPercent = 0;
             $scope.volumePercent = PlayerDataFactory.getVolume.call(PlayerDataFactory);
@@ -176,6 +178,8 @@
             /////////////////////////////////
 
             function buildPlayer() {
+
+              $scope.videoIsLoading = true;
 
               var iframeEl = $element[0].getElementsByClassName('video-view-iframe')[0];
               if (!iframeEl) {
@@ -226,6 +230,7 @@
               $scope.setDefaultPlayerVolume();
               $scope.syncVideoQuality();
               $scope.timeTotal = secondsToReadableFormat($scope.player.getDuration());
+              $scope.videoIsLoading = false;
               $scope.$apply();
             }
 
@@ -294,7 +299,27 @@
             }
 
             function onPlayerError(e) {
-              console.error('playerError', e);
+              $timeout(function(){
+                $scope.videoError = true;
+                $scope.videoIsLoading = false;
+                console.error('playerError', e);
+              });
+            }
+
+            function getElementPercentFromEvent(event, className){
+              var rect = $element[0].getElementsByClassName(className)[0].getBoundingClientRect();
+              var width = rect.right - rect.left;
+              var value = event.center.x - rect.left;
+              var percentOutOfBounds = (value / width * 100).toFixed();
+              var percent;
+              if (percentOutOfBounds > 100) {
+                percent = 100;
+              } else if (percentOutOfBounds < 0) {
+                percent = 0;
+              } else {
+                percent = percentOutOfBounds;
+              }
+              return percent;
             }
 
             // ELEMENT EVENT HANDLERS
@@ -306,24 +331,11 @@
 
             function dragVolume(event) {
 
-              // TODO cache element properties
-              var rect = $element[0].getElementsByClassName('video-audio-container')[0].getBoundingClientRect();
-              var width = rect.right - rect.left;
-              var value = event.center.x - rect.left;
-              var percentOutOfBounds = (value / width * 100).toFixed();
-              var percent;
-
-              if (percentOutOfBounds > 100) {
-                percent = 100;
-              } else if (percentOutOfBounds < 0) {
-                percent = 0;
-              } else {
-                percent = percentOutOfBounds;
-              }
+              var percent = getElementPercentFromEvent(event, 'video-audio-container');
 
               // if it is a dragend then store
               // value in localstorage
-              if (event.type === 'panend') {
+              if (event.type === 'panend' || event.type === 'tap') {
                 $scope.volumePercent = PlayerDataFactory.setVolume.call(PlayerDataFactory, percent);
               } else {
                 $scope.volumePercent = percent;
@@ -342,23 +354,10 @@
             volumeDragger = new Hammer(volumeKnobEl);
             volumeDragger.on('pan', dragVolume);
 
-            // VIDEO TIME LISTENER/HANDLER
+            volumeContainer = $element[0].getElementsByClassName('video-audio-container-touch-area')[0];
+            new Hammer(volumeContainer).on('tap', dragVolume);
 
-            function getTimePercentFromEvent(event){
-              var rect = $element[0].getElementsByClassName('video-time-container')[0].getBoundingClientRect();
-              var width = rect.right - rect.left;
-              var value = event.center.x - rect.left;
-              var percentOutOfBounds = (value / width * 100).toFixed();
-              var percent;
-              if (percentOutOfBounds > 100) {
-                percent = 100;
-              } else if (percentOutOfBounds < 0) {
-                percent = 0;
-              } else {
-                percent = percentOutOfBounds;
-              }
-              return percent;
-            }
+            // VIDEO TIME LISTENER/HANDLER
 
             function getVideoSecondsFromPercent(percent){
               if ($scope.player) {
@@ -373,7 +372,7 @@
 
               timerIsDragged = true;
 
-              var percent = getTimePercentFromEvent(event);
+              var percent = getElementPercentFromEvent(event, 'video-time-container');
               $scope.progressPercent = percent;
               $scope.$apply();
 
@@ -392,7 +391,7 @@
 
             timeContainer = $element[0].getElementsByClassName('video-time-container-touch-area')[0];
             new Hammer(timeContainer).on('tap', function(event){
-              var percent = getTimePercentFromEvent(event);
+              var percent = getElementPercentFromEvent(event, 'video-time-container');
               $scope.progressPercent = percent;
               $scope.$apply();
               $scope.player.seekTo(getVideoSecondsFromPercent(percent), true);
@@ -540,6 +539,8 @@
           template   : '' +
             '<div class="video-view" style="position:relative;width:100%;height:100%;line-height:0;padding:0;margin:0;top:0;left:0;bottom:0;right:0" ng-style="wrapperStyles">' +
             '<div class="video-view-content" style="position:absolute;z-index:5;width:100%;height:100%;line-height:0;padding:0;margin:0;top:0;left:0;bottom:0;right:0">' +
+            '<div class="video-view-error" ng-if="videoError">Error occured!</div>' +
+            '<div class="video-view-loader" ng-if="videoIsLoading">Loading ...</div>' +
             '<div class="video-view-iframe"></div>' +
             '</div>' +
             '<div class="video-view-content-cover" style="position:absolute;z-index:-1;width:100%;height:100%;line-height:0;padding:0;margin:0;top:0;left:0;bottom:0;right:0"></div>' +
@@ -566,6 +567,7 @@
 
             '<div class="video-view-controls-audio">' +
             '<div class="video-audio-container">' +
+            '<div class="video-audio-container-touch-area"></div>' +
             '<div class="video-audio-volume" style="width: {{volumePercent}}%;">' +
             '<div class="video-audio-volume-knob" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: none;">' +
             '<div class="video-audio-volume-knob-area"></div>' +

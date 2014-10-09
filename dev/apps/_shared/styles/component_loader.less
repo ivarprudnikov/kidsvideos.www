@@ -60,3 +60,48 @@
        -webkit-transform: scaleY(1.0);
      }
 }
+
+
+
+.image-loader {
+  margin: 0;
+  font-size: 10px;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  text-indent: -9999em;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-left-color: #ffffff;
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+
+  &,
+  &:after {
+    border-radius: 50%;
+    width: 5em;
+    height: 5em;
+    margin-top: -2.5em;
+    margin-left: -2.5em;
+  }
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
