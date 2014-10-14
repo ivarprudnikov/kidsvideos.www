@@ -17,10 +17,9 @@ angular.module('io.kidsvideos.www.search')
 
     var loader = new Loader($scope, 'loadingMessage');
     $scope.types = {
+      YOUTUBE  : { name : 'Youtube', key : 'YOUTUBE' },
       APPROVED : { name : 'Approved', key : 'APPROVED' },
-      PENDING  : { name : 'Pending', key : 'PENDING' },
-      SKIPPED  : { name : 'Skipped', key : 'SKIPPED' },
-      YOUTUBE  : { name : 'Youtube', key : 'YOUTUBE' }
+      PENDING  : { name : 'Pending', key : 'PENDING' }
     };
 
     /* jshint camelcase:false */

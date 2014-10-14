@@ -12,13 +12,32 @@
     <link rel="stylesheet" href="home/styles/core.css">
     <!-- endbuild -->
 
-    <link async href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500" rel="stylesheet">
+    <!--<link async href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500" rel="stylesheet">-->
 </head>
 
-<body class="body">
+<body class="body" ng-class="currentState.name">
 
+<header class="header">
+    <div class="header-logo">
+        <img src="_shared/images/kidsvideos.io_logo-white-beta.svg" />
+    </div>
 
-<aside sidebar position="'left'">
+    <nav class="header-links">
+        <ul class="nav nav-pills">
+            <li>
+                <a>Search</a>
+            </li>
+            <li>
+                <a>Browse</a>
+            </li>
+            <li>
+                <a>Preview</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<aside sidebar position="'right'">
     <div class="sidebar-brand">
         <a tabindex="1">
             <img src="_shared/images/kidsvideos.io_logo-white-beta.svg" />

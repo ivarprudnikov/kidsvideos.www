@@ -20,9 +20,16 @@
         },
         controller : [
           '$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+
             $scope.isOpen = false;
+            syncBodyClass();
+
             $scope.toggle = function(){
               $scope.isOpen = !$scope.isOpen;
+              syncBodyClass();
+            };
+
+            function syncBodyClass(){
               var bodyClass = 'sidebar-' + $scope.position + '-open';
               if($scope.isOpen){
                 $('body').addClass(bodyClass);
@@ -35,7 +42,9 @@
 
         template : '' +
         '<div class="sidebar {{position}}" ng-class="{open:isOpen}">' +
-        '<div class="sidebar-toggle" ng-click="toggle()"></div>' +
+        '<div class="sidebar-toggle" tabindex="-1" ng-click="toggle()">' +
+        '<span class="bar bar-01"></span><span class="bar bar-02"></span><span class="bar bar-03"></span>' +
+        '</div>' +
         '<div class="sidebar-content" ng-transclude>' +
         '</div>' +
         '</div>'

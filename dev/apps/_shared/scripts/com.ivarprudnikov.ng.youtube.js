@@ -28,6 +28,7 @@
         this.apiLoading = true;
         var tag = document.createElement('script');
         tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = 'async';
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
       };
@@ -159,6 +160,7 @@
             $scope.videoError = false;
             $scope.bufferPercent = 0;
             $scope.progressPercent = 0;
+            $scope.progressPrettyTime = '0:00';
             $scope.volumePercent = PlayerDataFactory.getVolume.call(PlayerDataFactory);
             $scope.playerState = -1; // -1 (unstarted); 0 (ended); 1 (playing); 2 (paused); 3 (buffering); 5 (video cued)
             $scope.playbackQualityChosen = PlayerDataFactory.getQuality.call(PlayerDataFactory);
@@ -417,6 +419,11 @@
               }
             });
 
+            $scope.$watch('progressPercent',function(newValue, oldValue){
+              var sec = getVideoSecondsFromPercent(newValue);
+              $scope.progressPrettyTime = secondsToReadableFormat(sec);
+            });
+
             // PLAYER SIZING
             ////////////////////////////
 
@@ -554,6 +561,10 @@
             '<div class="video-view-content-cover-block-small d" style="position:absolute;z-index:7"></div>' +
             '<div class="video-view-controls-wrapper" style="position:absolute;z-index:10">' +
 
+            '<div class="video-view-controls top"></div>' +
+            '<div class="video-view-controls bottom"></div>' +
+            '<div class="video-view-controls back"></div>' +
+
             '<div class="video-view-controls">' +
 
             '<div class="video-view-controls-palyback">' +
@@ -570,6 +581,7 @@
             '<div class="video-audio-container-touch-area"></div>' +
             '<div class="video-audio-volume" style="width: {{volumePercent}}%;">' +
             '<div class="video-audio-volume-knob" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: none;">' +
+            '<div class="video-audio-volume-value" ng-show="volumePercent">{{volumePercent}}</div>' +
             '<div class="video-audio-volume-knob-area"></div>' +
             '</div>' +
             '</div>' +
@@ -583,6 +595,7 @@
             '<div class="video-buffer-line" style="width: {{bufferPercent}}%;"></div>' +
             '<div class="video-time-line" style="width: {{progressPercent}}%;">' +
             '<div class="video-time-knob" style="-webkit-user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); touch-action: none;">' +
+            '<div class="video-time-value" ng-show="progressPrettyTime">{{progressPrettyTime}}</div>' +
             '<div class="video-time-knob-area"></div>' +
             '</div>' +
             '</div>' +

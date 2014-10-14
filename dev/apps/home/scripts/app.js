@@ -16,6 +16,9 @@ var APP = angular.module(
 );
 
 function AppRunner($rootScope, $urlRouter, $window, authService, configuration) {
+
+  $rootScope.currentState = { name : '' };
+
   $rootScope.$on(
   '$stateChangeStart',
   function (event, toState, toParams, fromState, fromParams) {
@@ -26,6 +29,9 @@ function AppRunner($rootScope, $urlRouter, $window, authService, configuration) 
       }).error(function () {
         $window.location.replace(configuration.app.home);
       });
+    } else {
+      $rootScope.currentState.name = toState.name.replace(/\./g, '_');
+      $('body').animate({ scrollTop : 0 }, 100);
     }
 
   }

@@ -29,22 +29,60 @@
 
   .sidebar-toggle {
     position: absolute;
-    top: 5px;
-    width: 40px;
-    height: 40px;
+    top: 20px;
+    width: 50px;
+    height: 50px;
     background-color: #838282;
     display: block;
+    border-radius: 50%;
+
+    .bar {
+      width: 30px;
+      height: 4px;
+      background-color: white;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -2px;
+      margin-left: -15px;
+      transition: all 0.3s;
+
+      &.bar-01 {
+        top: 30%;
+        width: 24px;
+        margin-left: -12px;
+      }
+      &.bar-02 {}
+      &.bar-03 {
+        top: 70%;
+        width: 24px;
+        margin-left: -12px;
+      }
+    }
+  }
+
+  &.open .sidebar-toggle {
+    .bar-01, .bar-03 {
+      top: 50%;
+      width: 30px;
+      margin-left: -15px;
+      transform: rotate(-45deg);
+    }
+    .bar-02 {
+      transform: rotate(45deg);
+    }
   }
 
   &.left {
     .sidebar-toggle {
-      right: -50px;
+      right: -70px;
     }
   }
 
   &.right {
     .sidebar-toggle {
-      left: -50px;
+      left: -70px;
     }
   }
 }
