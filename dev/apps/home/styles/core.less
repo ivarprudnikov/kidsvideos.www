@@ -1,10 +1,32 @@
 @import "../../_shared/styles/base_styles";
 
+
+body {
+  transition: 0.5s all ease-out;
+  background-color: #111;
+}
+
 body.landing {
   background-image: url('../../_shared/images/kids_watching.jpg');
   background-position: center 80%;
   background-size: cover;
   background-repeat: no-repeat;
+  background-color: #111;
+}
+
+body.search_video {
+  background-color: #F9F9F9;
+  .header .header-logo {
+    .white { display: none; }
+    .black { display: block; }
+  }
+
+  .sidebar .sidebar-toggle {
+    border-color: #333;
+    .bar {
+      background-color: #333;
+    }
+  }
 }
 
 .header {
@@ -16,6 +38,10 @@ body.landing {
     width: 200px;
     height: 90px;
     float: left;
+
+    .black {
+      display: none;
+    }
 
     img {
       max-width: 100%;

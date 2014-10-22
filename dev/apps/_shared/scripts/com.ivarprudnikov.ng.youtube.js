@@ -362,7 +362,7 @@
             // VIDEO TIME LISTENER/HANDLER
 
             function getVideoSecondsFromPercent(percent){
-              if ($scope.player) {
+              if ($scope.player && typeof $scope.player.getDuration === 'function') {
                 var totalVideoTimeInSeconds = $scope.player.getDuration();
                 return totalVideoTimeInSeconds * percent / 100;
               } else {

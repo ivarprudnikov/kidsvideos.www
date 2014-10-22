@@ -15,17 +15,18 @@
     <!--<link async href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500" rel="stylesheet">-->
 </head>
 
-<body class="body" ng-class="currentState.name">
+<body class="body" ng-class="currentState.name" contrast="">
 
 <header class="header">
-    <div class="header-logo">
-        <img src="_shared/images/kidsvideos.io_logo-white-beta.svg" />
-    </div>
+    <a ui-sref="landing" class="header-logo">
+        <img class="white" src="_shared/images/kidsvideos.io_logo-white-beta.svg" />
+        <img class="black" src="_shared/images/kidsvideos.io_logo-black-beta.svg" />
+    </a>
 
     <nav class="header-links">
         <ul class="nav nav-pills">
-            <li>
-                <a>Search</a>
+            <li ui-sref-active="active">
+                <a ui-sref="search.video">Search</a>
             </li>
             <li>
                 <a>Browse</a>
@@ -37,9 +38,9 @@
     </nav>
 </header>
 
-<aside sidebar position="'right'">
+<aside sidebar position="'right'" style="display: none;">
     <div class="sidebar-brand">
-        <a tabindex="1">
+        <a tabindex="1" ui-sref="landing">
             <img src="_shared/images/kidsvideos.io_logo-white-beta.svg" />
         </a>
     </div>
