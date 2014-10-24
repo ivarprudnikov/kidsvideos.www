@@ -3,6 +3,7 @@
 var APP = angular.module(
 'io.kidsvideos.www', [
   'io.kidsvideos.www.search',
+  'io.kidsvideos.www.personal',
   'com.ivarprudnikov.ng.config',
   'com.ivarprudnikov.ng.sidebar',
   'com.ivarprudnikov.ng.youtube',

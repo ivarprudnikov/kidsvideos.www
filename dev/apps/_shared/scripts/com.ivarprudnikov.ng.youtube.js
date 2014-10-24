@@ -149,7 +149,7 @@
           controller : ['$scope', '$element', function ($scope, $element) {
 
             var resizeListenerEl,
-              volumeKnobEl, timeKnobEl, timerIsDragged, volumeDragger, timerDragger,
+              volumeKnobEl, timeKnobEl, timerIsDragged, hammerElements = [],
               timeContainer, volumeContainer
               ;
 
@@ -353,11 +353,10 @@
             }
 
             volumeKnobEl = $element[0].getElementsByClassName('video-audio-volume-knob')[0];
-            volumeDragger = new Hammer(volumeKnobEl);
-            volumeDragger.on('pan', dragVolume);
+            hammerElements.push( new Hammer(volumeKnobEl).on('pan', dragVolume) );
 
             volumeContainer = $element[0].getElementsByClassName('video-audio-container-touch-area')[0];
-            new Hammer(volumeContainer).on('tap', dragVolume);
+            hammerElements.push( new Hammer(volumeContainer).on('tap', dragVolume) );
 
             // VIDEO TIME LISTENER/HANDLER
 
@@ -387,17 +386,18 @@
             }
 
             timeKnobEl = $element[0].getElementsByClassName('video-time-knob')[0];
-            timerDragger = new Hammer(timeKnobEl);
-            timerDragger.on('pan panend pancancel', dragTime);
+            hammerElements.push(  new Hammer(timeKnobEl).on('pan panend pancancel', dragTime) );
 
 
             timeContainer = $element[0].getElementsByClassName('video-time-container-touch-area')[0];
-            new Hammer(timeContainer).on('tap', function(event){
-              var percent = getElementPercentFromEvent(event, 'video-time-container');
-              $scope.progressPercent = percent;
-              $scope.$apply();
-              $scope.player.seekTo(getVideoSecondsFromPercent(percent), true);
-            });
+            hammerElements.push(
+              new Hammer(timeContainer).on('tap', function(event){
+                var percent = getElementPercentFromEvent(event, 'video-time-container');
+                $scope.progressPercent = percent;
+                $scope.$apply();
+                $scope.player.seekTo(getVideoSecondsFromPercent(percent), true);
+              })
+            );
 
             // WATCHERS
             ////////////////////////////
@@ -442,6 +442,9 @@
 
             $scope.$on('destroy', function () {
               $window.removeResizeListener(resizeListenerEl, onElementResize);
+              angular.each(hammerElements,function(hm){
+                hm.destroy();
+              });
             });
 
             // CONTROLS

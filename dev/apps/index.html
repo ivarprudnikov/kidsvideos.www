@@ -32,7 +32,7 @@
                 <a>Browse</a>
             </li>
             <li>
-                <a>Preview</a>
+                <a ui-sref="personal.landing">Your videos</a>
             </li>
         </ul>
     </nav>
@@ -48,7 +48,7 @@
         <ul>
             <li ui-sref-active="active"><a tabindex="1" ui-sref="search.video">Search</a></li>
             <li><a tabindex="1">Browse</a></li>
-            <li><a tabindex="1">Your videos</a></li>
+            <li ui-sref-active="active"><a tabindex="1" ui-sref="personal.landing">Your videos</a></li>
             <li><a tabindex="1">Account</a></li>
         </ul>
     </nav>
@@ -97,9 +97,17 @@
 <script src="_shared/scripts/com.ivarprudnikov.ng.auth.js"></script>
 <script src="_shared/scripts/com.ivarprudnikov.ng.sidebar.js"></script>
 <script src="_shared/scripts/com.ivarprudnikov.ng.video.manage.js"></script>
+
 <script src="home/scripts/app.js"></script>
+
 <script src="home/scripts/modules/search/scripts/main.js"></script>
 <script src="home/scripts/modules/search/scripts/SearchVideoController.js"></script>
+
+<script src="home/scripts/modules/personal/scripts/main.js"></script>
+<script src="home/scripts/modules/personal/scripts/PlaylistListController.js"></script>
+<script src="home/scripts/modules/personal/scripts/PlaylistShowController.js"></script>
+<script src="home/scripts/modules/personal/scripts/PlaylistEditController.js"></script>
+<script src="home/scripts/modules/personal/scripts/PlaylistCreateController.js"></script>
 <!-- endbuild -->
 
 

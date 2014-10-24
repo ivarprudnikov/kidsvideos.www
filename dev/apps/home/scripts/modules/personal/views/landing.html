@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="container-fluid container-padded">
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Your playlists</h1>
 
-</body>
-</html>
+            <div ng-if="results != null && results.items && !results.items.length" class="alert alert-warning">Nothing found</div>
+
+            <div ng-if="loadingMessage" loader message="loadingMessage"></div>
+
+            <div ng-if="results && results.items" class="row">
+
+                <div ng-repeat="(itemIdx,item) in results.items" class="col-sm-6 col-md-4 col-lg-3">
+
+                    <div class="panel panel-default panel-playlist">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <span ui-sref="^.show({id:item._id})">{{ item.title }}</span>
+                                <small>{{item.isPublic ? 'Public' : 'Private'}}</small>
+
+                                <div class="dropdown pull-right">
+                                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-cog"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="^.play({id:item._id})">Play</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="^.show({id:item._id})">Show</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" ui-sref="^.edit({id:item._id})">Edit</a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Share</a></li>
+                                    </ul>
+                                </div>
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <div ng-if="!item.videos || !item.videos.length" >No videos</div>
+                            <div ng-if="item.videos.length" >{{item.videos.length}} videos</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

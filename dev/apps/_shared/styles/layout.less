@@ -1,6 +1,25 @@
-body {}
+body {
+}
+
+.header-links {
+  display: none;
+}
+
+.container-padded {
+  padding-left: @grid-gutter-width;
+  padding-right: @grid-gutter-width;
+}
 
 @media (min-width: @screen-sm-min) {
+
+  .header-links {
+    display: block;
+  }
+
+  .container-padded {
+    padding-left: @grid-gutter-width * 2;
+    padding-right: @grid-gutter-width * 2;
+  }
 
 //  .sidebar {
 //    &.left {
