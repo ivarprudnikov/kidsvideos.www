@@ -1,3 +1,10 @@
+@sidebar-content-overlay-color: rgba(0,0,0,0.7);
+@sidebar-toggle-color: #777;
+@sidebar-toggle-color-active: #FF7E00;
+@sidebar-background-color: rgb(65, 65, 65);
+@sidebar-link-color: #bbb;
+@sidebar-link-color-active: @sidebar-toggle-color-active;
+
 .sidebar-wrapper {
   position: absolute;
   position: fixed;
@@ -5,7 +12,7 @@
   height: 100%;
   top:0;
   bottom:0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: @sidebar-content-overlay-color;
   z-index: 999;
 
   transition: 0.1s all ease;
@@ -67,52 +74,55 @@
   position: fixed;
   width: 200px;
   height: 100%;
-  background: rgb(65, 65, 65);
+  background: @sidebar-background-color;
   box-shadow: 4px 0 7px rgba(0, 0, 0, 0.3);
-  border-right: 1px solid rgb(53, 53, 53);
+  border-left: 1px solid darken(@sidebar-background-color,5%);
+  border-right: 1px solid darken(@sidebar-background-color,5%);
+
   transition: 0.2s all ease-out;
 
   .sidebar-toggle {
+    outline: none;
+    cursor: pointer;
     position: absolute;
-    top: 20px;
+    top: 15px;
     width: 50px;
     height: 50px;
     background-color: transparent;
     display: block;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: 2px solid @sidebar-toggle-color;
 
     .bar {
-      width: 30px;
+      width: 24px;
       height: 2px;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: @sidebar-toggle-color;
       display: block;
       position: absolute;
       top: 50%;
       left: 50%;
       margin-top: -1px;
-      margin-left: -15px;
+      margin-left: -12px;
       transition: all 0.3s;
 
       &.bar-01 {
-        top: 30%;
-        width: 24px;
-        margin-left: -12px;
+        top: 35%;
       }
       &.bar-02 {}
       &.bar-03 {
-        top: 70%;
-        width: 24px;
-        margin-left: -12px;
+        top: 65%;
       }
     }
   }
 
   &.open .sidebar-toggle {
+    border-color: @sidebar-toggle-color-active;
+    .bar {
+      background-color: @sidebar-toggle-color-active;
+    }
+
     .bar-01, .bar-03 {
       top: 50%;
-      width: 30px;
-      margin-left: -15px;
       transform: rotate(-45deg);
     }
     .bar-02 {
@@ -122,13 +132,13 @@
 
   &.left {
     .sidebar-toggle {
-      right: -80px;
+      right: -65px;
     }
   }
 
   &.right {
     .sidebar-toggle {
-      left: -80px;
+      left: -65px;
     }
   }
 }
@@ -143,7 +153,7 @@
 }
 
 .sidebar-brand {
-  padding: 20px;
+  padding: 15px 20px;
 
   a {
     display: block;
@@ -160,8 +170,8 @@
   display: block;
   height: 2px;
   width: 100%;
-  background: rgb(56, 56, 56);
-  border-top: 1px solid rgb(75, 75, 75);
+  background: darken(@sidebar-background-color,5%);
+  border-top: 1px solid lighten(@sidebar-background-color,5%);
   margin: 10px 0;
 }
 
@@ -179,7 +189,7 @@ nav {
         padding: 10px 20px;
         line-height: 20px;
         font-size: 16px;
-        color: #BBB;
+        color: @sidebar-link-color;
         text-transform: none;
         text-decoration: none;
         border:1px solid transparent;
@@ -188,17 +198,18 @@ nav {
         &:focus {
           text-transform: none;
           text-decoration: none;
-          color: #DDD;
-          background-color: rgb(56, 56, 56);
-          border-top-color: rgb(49, 49, 49);
-          border-bottom-color: rgb(75, 75, 75);
+          color: @sidebar-link-color-active;
+          background-color: darken(@sidebar-background-color,5%);
+          border-top-color: darken(@sidebar-background-color,8%);
+          border-bottom-color: lighten(@sidebar-background-color,5%);
         }
       }
 
       &.active a {
-        background-color: rgb(56, 56, 56);
-        border-top-color: rgb(49, 49, 49);
-        border-bottom-color: rgb(75, 75, 75);
+        color: @sidebar-link-color;
+        background-color: darken(@sidebar-background-color,5%);
+        border-top-color: darken(@sidebar-background-color,8%);
+        border-bottom-color: lighten(@sidebar-background-color,5%);
       }
 
 

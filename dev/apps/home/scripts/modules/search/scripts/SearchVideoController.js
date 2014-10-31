@@ -4,15 +4,14 @@ angular.module('io.kidsvideos.www.search')
 .controller(
 'SearchVideoController',
 [
+  'Restangular',
   'ManageVideoService',
-  'VideoFactory',
-  'YoutubeVideoActivityFactory',
   '$scope',
   '$interval',
   '$state',
   '$stateParams',
   'Loader',
-  function (ManageVideoService, VideoFactory, YoutubeVideoActivityFactory, $scope, $interval, $state, $stateParams,
+  function (Restangular, ManageVideoService, $scope, $interval, $state, $stateParams,
   Loader) {
 
     var loader = new Loader($scope, 'loadingMessage');
@@ -31,6 +30,7 @@ angular.module('io.kidsvideos.www.search')
     $scope.params.offset = $stateParams.offset || '';
     $scope.params.type = $scope.types[$stateParams.type] ? $scope.types[$stateParams.type].key : $scope.types.APPROVED.key;
     $scope.results = null;
+    $scope.isAdvancedVisible = false;
 
     // check if should load results
     var isFresh = true;
@@ -48,32 +48,45 @@ angular.module('io.kidsvideos.www.search')
 
     function searchForResults() {
       loader.start();
-      VideoFactory.search.getAll(
-      $scope.params, null, function (responseData, responseHeaders) {
-        $scope.results = responseData.data;
+      Restangular.all('search').getList($scope.params).then(function(response){
+        $scope.results = response;
         loader.stop();
-      }, errorHandler
-      );
+      }, errorHandler);
     }
 
     $scope.search = function () {
       $state.go($state.$current.name, $scope.params);
     };
 
+    $scope.toggleAdvanced = function(){
+      $scope.isAdvancedVisible = !$scope.isAdvancedVisible;
+    };
+
     $scope.next = function () {
-      if ($scope.results && $scope.results.links && $scope.results.links.next) {
-        $state.go($state.$current.name, $scope.results.params.next);
+      if ($scope.results && $scope.results.activityStream.links && $scope.results.activityStream.links.next) {
+        $state.go($state.$current.name, $scope.results.activityStream.params.next);
       }
     };
 
     $scope.prev = function () {
-      if ($scope.results && $scope.results.links && $scope.results.links.prev) {
-        $state.go($state.$current.name, $scope.results.params.prev);
+      if ($scope.results && $scope.results.activityStream.links && $scope.results.activityStream.links.prev) {
+        $state.go($state.$current.name, $scope.results.activityStream.params.prev);
       }
     };
 
-    $scope.previewVideo = function (id) {
+    $scope.playVideo = function (id) {
       $scope.videoId = id;
+    };
+
+    $scope.previewVideo = function (itemIdx) {
+      var item = $scope.results[itemIdx];
+      if(item._id){
+        $state.go('video.landing',{id:item._id})
+      } else {
+        Restangular.all('video').post(item).then(function(newItem){
+          $state.go('video.landing',{id:newItem._id})
+        });
+      }
     };
 
     $scope.closeVideo = function(){
@@ -81,7 +94,7 @@ angular.module('io.kidsvideos.www.search')
     };
 
     $scope.addTo = function (itemIdx) {
-      var item = $scope.results.items[itemIdx];
+      var item = $scope.results[itemIdx];
       ManageVideoService.addVideo(item);
     };
 

@@ -23,17 +23,25 @@ MODULE.config(
     .state('search', {
              abstract : true,
              url      : '/search',
-             template : '<div ui-view="search"></div>'
+             template : '<div ui-view="searchview"></div>'
            })
-    .state('search.video', {
-             url   : '?search_term&token&max&offset&type',
+    .state('search.landing', {
+             url   : '',
              views : {
-               'search@search' : {
+               'searchview@search' : {
                  templateUrl : APP_PATH + '/views/landing.html',
+                 controller  : 'SearchLandingController'
+               }
+             }
+           })
+    .state('search.results', {
+             url   : '/results?search_term&token&max&offset&type',
+             views : {
+               'searchview@search' : {
+                 templateUrl : APP_PATH + '/views/results.html',
                  controller  : 'SearchVideoController'
                }
              }
-           }
-    )
+           })
   }
 ]);

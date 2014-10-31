@@ -1,0 +1,45 @@
+@import "variables";
+@import "mixins_local";
+@import "@{bootstrapLessDir}/mixins.less";
+
+//
+// Forms
+// --------------------------------------------------
+
+legend {
+  color: @legend-color;
+  border: 0;
+}
+
+.form-control {
+  color: @input-color;
+  background-color: @input-bg;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid @input-border;
+  border-radius: @input-border-radius;
+  .box-shadow(none);
+  .transition(~"border-color ease-in-out .15s");
+
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: @input-bg-disabled;
+  }
+
+}
+
+// Feedback states
+.has-success {
+  .form-control-validation(@state-success-text; @state-success-text; @state-success-bg);
+}
+.has-warning {
+  .form-control-validation(@state-warning-text; @state-warning-text; @state-warning-bg);
+}
+.has-error {
+  .form-control-validation(@state-danger-text; @state-danger-text; @state-danger-bg);
+}
+
+
+.help-block {
+  color: lighten(@text-color, 25%); // lighten the text some for contrast
+}

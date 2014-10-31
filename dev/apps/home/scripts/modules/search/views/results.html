@@ -1,0 +1,116 @@
+
+<div class="video-overlay" ng-if="videoId">
+
+    <div class="video-overlay-pattern"></div>
+
+    <button class="close-video btn btn-danger btn-lg" ng-click="closeVideo()">&times;<span class="sr-only">close</span></button>
+
+    <div class="video-container">
+        <youtube-player
+                videoid="videoId"
+                on-next-load-video-id="loadNextId(currentId)"
+                on-previous-load-video-id="loadPreviousId(currentId)"
+                playerorigin="'http://localhost:9000'" />
+    </div>
+</div>
+
+
+
+<div class="container-fluid container-padded">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <section class="page-content">
+
+                <header class="page-content-title">
+                    <h1>
+                        <span class="circled-icon title-icon"><span class="glyphicon glyphicon-search"></span></span>
+                        Search videos
+                    </h1>
+                </header>
+
+                <nav class="page-search">
+                    <form ng-submit="search()">
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search_term" ng-model="params.search_term" value="{{params.search_term}}" placeholder="Search term...">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="toggleAdvanced()">
+                                    <span class="glyphicon glyphicon-cog"></span><span class="sr-only">Options</span>
+                                </button>
+                            </div>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="advanced-controls" ng-class="{active:isAdvancedVisible}">
+                            <div class="form-group">
+                                <select class="form-control" ng-model="params.type" ng-options="type as obj.name for (type,obj) in types"></select>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </nav>
+
+            </section>
+
+
+
+
+
+
+            <div ng-if="results != null && !results.length" class="alert alert-warning">Nothing found</div>
+
+            <div ng-if="loadingMessage" loader message="loadingMessage"></div>
+
+            <div ng-if="results && results.length">
+
+                <div class="row" ng-repeat="(itemIdx,item) in results" ng-if="itemIdx % 4 == 0">
+
+                    <div class="col-sm-3" ng-repeat="elIdx in [0,1,2,3]" ng-if="results[itemIdx+elIdx]">
+
+                        <result-small
+                                is-active="videoId === results[itemIdx+elIdx].id"
+                                image-url="results[itemIdx+elIdx].image[ results[itemIdx+elIdx].image.length - 1 ].url"
+                                on-image-click="playVideo(results[itemIdx+elIdx].id)"
+                                title="results[itemIdx+elIdx].displayName"
+                                on-title-click="previewVideo(itemIdx+elIdx)"
+                                status="results[itemIdx+elIdx].isApproved ? 'approved' : results[itemIdx+elIdx].isSkipped ? 'skipped' : results[itemIdx+elIdx].isPending ? 'pending' : '' "
+                                actions="{
+                                    'Add to playlist' : 'addTo(itemIdx+elIdx)'
+                                }"
+                                ></result-small>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <ul class="pager pager-branded" ng-if="results.activityStream.links.prev || results.activityStream.links.next">
+                <li ng-if="results.activityStream.links.prev">
+                    <a class="btn btn-default" ng-click="prev()">
+                        <span class="sr-only">Previous page</span>
+                        <span class="icon-left-open"></span>
+                    </a>
+                </li>
+                <li ng-if="results.activityStream.links.next">
+                    <a class="btn btn-default" ng-click="next()">
+                        <span class="icon-right-open"></span>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+

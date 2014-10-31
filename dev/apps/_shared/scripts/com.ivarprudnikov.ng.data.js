@@ -5,8 +5,53 @@
 (function (angular) {
 
   var mod = angular.module('com.ivarprudnikov.ng.data', [
-    'com.ivarprudnikov.ng.config', 'ui.bootstrap'
+    'com.ivarprudnikov.ng.config', 'ui.bootstrap', 'restangular'
   ]);
+
+  mod.config(['RestangularProvider', 'configuration', function(RestangularProvider, configuration) {
+
+    RestangularProvider.setBaseUrl(configuration.api.baseUrl + configuration.api.public.path);
+
+    RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+      var extractedData;
+      if(operation === "getList") {
+        if (data.data !== undefined) {
+          extractedData = data.data;
+          extractedData.max = data.max;
+          extractedData.total = data.total;
+          extractedData.offset = data.offset;
+        } else if (data.items !== undefined) {
+          extractedData = data.items;
+          extractedData.command = data.command;
+          extractedData.total = data.totalItems;
+          extractedData.max = data.itemsPerPage;
+          extractedData.offset = data.startIndex;
+          extractedData.activityStream = data;
+        }
+
+      } else {
+        if(data.data !== undefined){
+          extractedData = data.data;
+        }
+      }
+      return extractedData;
+    });
+
+    // using mongo
+    RestangularProvider.setRestangularFields({ id: "_id" });
+
+
+    // TODO https://github.com/mgonto/restangular#seterrorinterceptor
+    RestangularProvider.setErrorInterceptor(function(response, deferred, responseHandler) {
+      if(response.status === 400) {
+        console.error('error 400')
+        return false; // error handled
+      }
+      return true; // error not handled
+    });
+
+  }]);
+
 
   mod.factory('PlaylistFactory', ['$resource', 'configuration', function ($resource, configuration) {
 
@@ -29,8 +74,9 @@
       search : $resource(configuration.api.public.videoSearch, {}, {
         getAll : { method : 'GET', cache : false }
       }),
-      item : $resource(configuration.api.public.videoCheck + '/:provider/:id', {}, {
-        check : { method : 'POST' }
+      item : $resource(configuration.api.public.video + '/:action/:provider/:id', {}, {
+        get : { method : 'GET', cache : false },
+        check : { method : 'POST', params : {action:'check'} }
       })
 
     };

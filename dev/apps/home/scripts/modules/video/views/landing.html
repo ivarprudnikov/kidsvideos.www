@@ -1,0 +1,63 @@
+
+<div class="container-fluid container-padded">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            <section class="page-content">
+
+                <header class="page-content-title">
+                    <h1>
+                        <span class="circled-icon title-icon"><span class="glyphicon glyphicon-search"></span></span>
+                        Videos
+                    </h1>
+                </header>
+
+                <nav class="page-actions">
+                </nav>
+
+            </section>
+
+
+
+
+
+
+            <div ng-if="!loadingMessage && !result" class="alert alert-warning">Nothing found</div>
+
+            <div ng-if="loadingMessage" loader message="loadingMessage"></div>
+
+            <div ng-if="result">
+
+                <div class="row">
+
+                    <div class="col-sm-3">
+
+                        <result-small
+                                is-active="videoId === result.id"
+                                image-url="result.imageUrl"
+                                on-image-click="previewVideo(result.id)"
+                                title="result.title"
+                                on-title-click="previewVideo(result.id)"
+                                status="result.isApproved ? 'approved' : result.isSkipped ? 'skipped' : result.isPending ? 'pending' : '' "
+                                actions="{
+                                    'Add to playlist' : 'addTo()'
+                                }"
+                                ></result-small>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
