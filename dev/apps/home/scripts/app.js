@@ -4,6 +4,7 @@ var APP = angular.module(
 'io.kidsvideos.www', [
   'io.kidsvideos.www.search',
   'io.kidsvideos.www.video',
+  'io.kidsvideos.www.playlists',
   'io.kidsvideos.www.personal',
   'com.ivarprudnikov.ng.config',
   'com.ivarprudnikov.ng.sidebar',
@@ -13,7 +14,7 @@ var APP = angular.module(
   'com.ivarprudnikov.ng.auth',
   'com.ivarprudnikov.ng.data',
   'com.ivarprudnikov.ng.video.manage',
-  'ui.router', 'ui.bootstrap', 'ngResource', 'ngAnimate', 'ui.keypress', 'ui.event', 'appTemplates'
+  'ui.router', 'ui.bootstrap', 'ngResource', 'ngAnimate', 'ui.keypress', 'ui.event', 'appTemplates', 'angular.filter'
 ]
 );
 

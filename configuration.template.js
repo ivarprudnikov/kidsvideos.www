@@ -17,10 +17,7 @@
     api: {
       baseUrl: '@@apiUrl',
       public: {
-        path: '/api/v1/client',
-        videoSearch: '@@apiUrl/api/v1/client/video/search',
-        videoCheck: '@@apiUrl/api/v1/client/video/check',
-        playlistPath: '@@apiUrl/api/v1/client/playlist'
+        path: '/api/v1'
       }
     }
   });

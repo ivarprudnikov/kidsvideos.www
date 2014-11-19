@@ -33,8 +33,8 @@
                                 is-grid-item="videoId == null"
                                 image-url="playlist.videos[itemIdx+elIdx].imageUrl"
                                 on-image-click="showYoutubeVideo(playlist.videos[itemIdx+elIdx].id)"
-                                title="playlist.videos[itemIdx+elIdx].title"
-                                on-title-click="showYoutubeVideo(playlist.videos[itemIdx+elIdx].id)"
+                                display-name="playlist.videos[itemIdx+elIdx].title"
+                                on-display-name-click="showYoutubeVideo(playlist.videos[itemIdx+elIdx].id)"
                                 status="playlist.videos[itemIdx+elIdx].isApproved ? 'approved' : playlist.videos[itemIdx+elIdx].isSkipped ? 'skipped' : playlist.videos[itemIdx+elIdx].isPending ? 'pending' : '' "
                                 actions="{
                                     'Play':'showYoutubeVideo(playlist.videos[itemIdx+elIdx].id)',

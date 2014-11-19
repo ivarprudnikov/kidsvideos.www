@@ -84,11 +84,13 @@
         scope      : {
           isGridItem   : '=?',
           isActive     : '=?',
-          imageUrl     : '=',
-          title        : '=',
+          imageUrl     : '=?',
+          imageUrls    : '=?',
+          displayName  : '=',
+          imageBadge   : '=?',
           status       : '=',
           onImageClick : '&',
-          onTitleClick : '&',
+          onDisplayNameClick : '&',
           actions      : '@'
         },
         controller : [
@@ -183,8 +185,8 @@
               ($scope.onImageClick || angular.noop)();
             };
 
-            $scope.clickTitle = function () {
-              ($scope.onTitleClick || angular.noop)();
+            $scope.clickDisplayName = function () {
+              ($scope.onDisplayNameClick || angular.noop)();
             };
 
             $scope.toggleDropdown = function () {
@@ -196,24 +198,30 @@
 
         template : '' +
         '<div class="sr-item-sm" ng-class="{\'sr-item-grid\':isGridItem,\'sr-item-list\':!isGridItem,active:isActive}">' +
-        '<div class="sr-item-sm-image-wrapper">' +
-        '<div class="sr-item-sm-image-loader" ng-if="imageIsLoading">Loading ...</div>' +
-        '<img ng-src="{{imageUrl}}" ng-attr-alt="title" result-image-preloader ng-class="{clickable:onImageClick}" ng-click="clickImage()"/>' +
-        '<div class="sr-item-sm-image" ng-class="{clickable:onImageClick}" ng-click="clickImage()" ng-style="{\'background-image\': \'url(\' + imageUrl + \')\'}"></div>' +
-        '<div class="sr-item-sm-image-error icon-cancel" ng-if="imageError"></div>' +
-        '<result-status status="status"></result-status>' +
-        '</div>' +
-        '<div class="sr-item-sm-caption-wrapper" >' +
-        '<div class="sr-item-sm-caption" ng-click="clickTitle()" ng-class="{clickable:onTitleClick}">{{title}}</div>' +
-        '<div class="sr-item-sm-actions" ng-if="actionNamesParsed && actionNamesParsed.length">' +
-        '<a class="sr-item-sm-actions-dropdown-trigger" ng-class="{active:dropdownActive}" ng-click="toggleDropdown()">' +
-        '<span class="sr-item-sm-actions-icon" ng-class="dropdownActive ? \'icon-cancel-circled\' : \'icon-ellipsis-vert\'"></span>' +
-        '</a>' +
-        '<div class="sr-item-sm-dropdown" ng-show="dropdownActive">' +
-        '<a ng-repeat="name in actionNamesParsed" ng-click="this[\'___\' + name]()">{{name}}</a>' +
-        '</div>' +
-        '</div>' +
-        '</div>' +
+        '  <div class="sr-item-sm-image-wrapper">' +
+        '    <div ng-if="imageUrl && imageIsLoading" class="sr-item-sm-image-loader">Loading ...</div>' +
+        '    <img ng-if="imageUrl" ng-src="{{imageUrl}}" ng-attr-alt="displayName" result-image-preloader ng-class="{clickable:onImageClick}" ng-click="clickImage()"/>' +
+        '    <div ng-if="imageUrl" class="sr-item-sm-image" ng-class="{clickable:onImageClick}" ng-click="clickImage()" ng-style="{\'background-image\': \'url(\' + imageUrl + \')\'}"></div>' +
+        '    <div ng-if="imageUrl && imageError" class="sr-item-sm-image-error icon-cancel"></div>' +
+
+        '    <div ng-if="imageUrls.length && !imageUrl" class="sr-item-sm-images sr-item-sm-images-{{imageUrls.length}}" ng-class="{clickable:onImageClick}" ng-click="clickImage()" >' +
+        '     <div ng-repeat="(imgIdx,img) in imageUrls" class="sr-item-sm-image sr-item-sm-image-{{imgIdx}}" ng-style="{\'background-image\': \'url(\' + img + \')\'}"></div>' +
+        '    </div>' +
+
+        '    <result-status status="status"></result-status>' +
+        '    <div class="sr-item-sm-image-badge" ng-if="imageBadge">{{imageBadge}}</div>' +
+        '  </div>' +
+        '  <div class="sr-item-sm-caption-wrapper" >' +
+        '    <div class="sr-item-sm-caption" ng-click="clickDisplayName()" ng-class="{clickable:onDisplayNameClick}">{{displayName}}</div>' +
+        '    <div class="sr-item-sm-actions" ng-if="actionNamesParsed && actionNamesParsed.length">' +
+        '      <a class="sr-item-sm-actions-dropdown-trigger" ng-class="{active:dropdownActive}" ng-click="toggleDropdown()">' +
+        '        <span class="sr-item-sm-actions-icon" ng-class="dropdownActive ? \'icon-cancel-circled\' : \'icon-ellipsis-vert\'"></span>' +
+        '      </a>' +
+        '      <div class="sr-item-sm-dropdown" ng-show="dropdownActive">' +
+        '        <a ng-repeat="name in actionNamesParsed" ng-click="this[\'___\' + name]()">{{name}}</a>' +
+        '      </div>' +
+        '    </div>' +
+        '  </div>' +
         '</div>'
 
       };

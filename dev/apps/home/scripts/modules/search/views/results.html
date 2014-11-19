@@ -79,8 +79,8 @@
                                 is-active="videoId === results[itemIdx+elIdx].id"
                                 image-url="results[itemIdx+elIdx].image[ results[itemIdx+elIdx].image.length - 1 ].url"
                                 on-image-click="playVideo(results[itemIdx+elIdx].id)"
-                                title="results[itemIdx+elIdx].displayName"
-                                on-title-click="previewVideo(itemIdx+elIdx)"
+                                display-name="results[itemIdx+elIdx].displayName"
+                                on-display-name-click="previewVideo(itemIdx+elIdx)"
                                 status="results[itemIdx+elIdx].isApproved ? 'approved' : results[itemIdx+elIdx].isSkipped ? 'skipped' : results[itemIdx+elIdx].isPending ? 'pending' : '' "
                                 actions="{
                                     'Add to playlist' : 'addTo(itemIdx+elIdx)'

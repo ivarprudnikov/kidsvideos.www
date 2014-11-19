@@ -38,8 +38,8 @@
                                 is-active="videoId === result.id"
                                 image-url="result.imageUrl"
                                 on-image-click="previewVideo(result.id)"
-                                title="result.title"
-                                on-title-click="previewVideo(result.id)"
+                                display-name="result.title"
+                                on-display-name-click="previewVideo(result.id)"
                                 status="result.isApproved ? 'approved' : result.isSkipped ? 'skipped' : result.isPending ? 'pending' : '' "
                                 actions="{
                                     'Add to playlist' : 'addTo()'

@@ -8,25 +8,14 @@
 
         <header class="page-content-title">
           <h1>
-            <span class="circled-icon title-icon"><span class="glyphicon glyphicon-folder-open"></span></span>
-            Browse
+            <span class="circled-icon title-icon"><span class="glyphicon glyphicon-list"></span></span>
+            {{result.title}}
           </h1>
         </header>
 
         <nav class="page-search">
 
-          <form ng-submit="search()">
 
-            <div class="input-group">
-              <input type="text" class="form-control" name="search_term" ng-model="params.search_term" value="{{params.search_term}}" placeholder="Search term...">
-              <div class="input-group-btn">
-                <button type="submit" class="btn btn-primary">
-                  <span class="glyphicon glyphicon-search"></span><span class="sr-only">Search</span>
-                </button>
-              </div>
-            </div>
-
-          </form>
 
         </nav>
 
@@ -34,11 +23,9 @@
 
 
 
-      <div ng-if="results != null && !results.length" class="alert alert-warning">Nothing found</div>
-
       <div ng-if="loadingMessage" loader message="loadingMessage"></div>
 
-      <div ng-if="results && results.length">
+      <div ng-if="result && results.length">
 
         <div class="row" ng-repeat="(itemIdx,item) in results" ng-if="itemIdx % 4 == 0">
 
@@ -46,7 +33,6 @@
 
             <result-small
               image-urls="[results[itemIdx+elIdx].videos[0].imageUrl,results[itemIdx+elIdx].videos[1].imageUrl]"
-              on-image-click="show(results[itemIdx+elIdx]._id)"
               display-name="results[itemIdx+elIdx].title"
               image-badge="results[itemIdx+elIdx].videos.length + ' videos'"
               status="results[itemIdx+elIdx].isApproved ? 'approved' : results[itemIdx+elIdx].isSkipped ? 'skipped' : results[itemIdx+elIdx].isPending ? 'pending' : '' "
@@ -63,6 +49,23 @@
 
         </div>
       </div>
+
+      <div ng-if="result != null && !result.videos.length" class="alert alert-warning">No videos</div>
+
+
+      <ul class="pager pager-branded" ng-if="results.activityStream.links.prev || results.activityStream.links.next">
+        <li ng-if="results.activityStream.links.prev">
+          <a class="btn btn-default" ng-click="prev()">
+            <span class="sr-only">Previous page</span>
+            <span class="icon-left-open"></span>
+          </a>
+        </li>
+        <li ng-if="results.activityStream.links.next">
+          <a class="btn btn-default" ng-click="next()">
+            <span class="icon-right-open"></span>
+          </a>
+        </li>
+      </ul>
 
     </div>
 

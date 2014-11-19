@@ -29,7 +29,7 @@
                 <a ui-sref="search.landing">Search</a>
             </li>
             <li>
-                <a>Browse</a>
+              <a ui-sref="playlists.landing">Browse</a>
             </li>
             <li>
                 <a ui-sref="personal.landing">Your videos</a>
@@ -47,7 +47,7 @@
     <nav class="sidebar-links">
         <ul>
             <li ui-sref-active="active"><a tabindex="1" ui-sref="search.landing">Search</a></li>
-            <li><a tabindex="1">Browse</a></li>
+            <li ui-sref-active="active"><a tabindex="1" ui-sref="playlists.landing">Browse</a></li>
             <li ui-sref-active="active"><a tabindex="1" ui-sref="personal.landing">Your videos</a></li>
             <li><a tabindex="1">Account</a></li>
         </ul>
@@ -79,6 +79,7 @@
 <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="../bower_components/angular-animate/angular-animate.js"></script>
 <script src="../bower_components/angular-touch/angular-touch.js"></script>
+<script src="../bower_components/angular-filter/dist/angular-filter.js"></script>
 <script src="../bower_components/restangular/dist/restangular.js"></script>
 <script src="../bower_components/hammerjs/hammer.js"></script>
 <!-- endbuild -->
@@ -107,6 +108,10 @@
 
 <script src="home/scripts/modules/video/scripts/main.js"></script>
 <script src="home/scripts/modules/video/scripts/MainController.js"></script>
+
+<script src="home/scripts/modules/playlists/scripts/main.js"></script>
+<script src="home/scripts/modules/playlists/scripts/SearchController.js"></script>
+<script src="home/scripts/modules/playlists/scripts/ShowController.js"></script>
 
 <script src="home/scripts/modules/personal/scripts/main.js"></script>
 <script src="home/scripts/modules/personal/scripts/PlaylistListController.js"></script>
